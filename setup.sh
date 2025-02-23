@@ -1,7 +1,5 @@
 #!/bin/bash
 
-CONFIG_FILE="config"
-
 # Modo debug: se activa si se pasa "y" como argumento
 debug_mode="n"
 if [[ "$1" == "y" ]]; then
@@ -23,7 +21,9 @@ fi
 # Preguntar al usuario si desea inicializar la personalización
 read -p "Initialize customization? (y/n): " start_customize
 if [[ "$start_customize" == "y" ]]; then
-    echo "customized"
+    echo "[SYS]: Starting customization..."
+    sudo chmod +x customize.sh
+    ./customize.sh
 else
-    echo "not customized"
+    echo "[SYS]: Customization skipped."
 fi
