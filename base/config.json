@@ -1,0 +1,27 @@
+{
+    "onscreen_keyboard": {
+        "enabled": true,
+        "applied": false,
+        "value": "disabled"
+    },
+    "customized_packages": {
+        "enabled": false,
+        "applied": true,
+        "value": ["vim", "git", "curl"]
+    },
+    "hostname": {
+        "enabled": false,
+        "applied": true,
+        "value": "raspberrypi"
+    },
+    "ip_address": {
+        "enabled": false,
+        "applied": true,
+        "value": "192.168.0.10"
+    },
+    "version": {
+        "enabled": false,
+        "applied": true,
+        "value": ""
+    }
+}

@@ -25,5 +25,10 @@ if [[ "$start_customize" == "y" ]]; then
     sudo chmod +x customize.sh
     ./customize.sh
 else
-    echo "[SYS]: Customization skipped."
+    read -p "restart base customization? (y/n): " restart_customize
+    if [[ "$restart_customize" == "y" ]]; then
+        sudo cp base/config.json config.json
+    else
+        echo "[SYS]: Customization skipped."
+    fi
 fi
