@@ -1,45 +1,49 @@
 #!/bin/bash
 
-CONFIG_FILE="config"
+CONFIG_FILE="config.json"
 
-# Verificar si el archivo config existe
+# Verificar si jq está instalado
+if ! command -v jq &> /dev/null; then
+    echo "[ERROR]: jq is not installed. Installing it now..."
+    sudo apt update && sudo apt install -y jq
+fi
+
+# Verificar si el archivo config.json existe
 if [[ ! -f "$CONFIG_FILE" ]]; then
-    echo "[SYS]: No config file found. Creating one..."
-    echo "onscreen_keyboard=disabled" > "$CONFIG_FILE"
-    echo "customized_packages=" >> "$CONFIG_FILE"
-else
-    echo "[SYS]: Config file detected. Checking for missing settings..."
+    echo "[ERROR]: No config.json found. Please create one and try again."
+    exit 1
 fi
 
-# Función para agregar una clave al archivo si no existe
-update_config() {
-    key=$1
-    value=$2
-    if ! grep -q "^$key=" "$CONFIG_FILE"; then
-        echo "$key=$value" >> "$CONFIG_FILE"
-        echo "[SYS]: Added missing setting: $key=$value"
-    fi
-}
+echo "[SYS]: Configuration file detected. Loading settings..."
 
-read -p "Will this system be monted on touchscreen? (y/n): " touchscreen_bool
-if [[ "$touchscreen_bool" == "y" ]]; then
-    update_config "onscreen_keyboard" "enabled"
-else
-    update_config "onscreen_keyboard" "disable"
-fi
+# Recorrer todas las configuraciones del JSON
+jq -r 'keys[]' "$CONFIG_FILE" | while read -r key; do
+    enabled=$(jq -r ".${key}.enabled" "$CONFIG_FILE")
+    applied=$(jq -r ".${key}.applied" "$CONFIG_FILE")
 
-# Verificar y agregar configuraciones faltantes
-update_config "customized_packages" ""
+    echo "[SYS]: $key → Enabled: $enabled | Applied: $applied"
+done
 
-echo "[SYS]: Configuration base complete."
-
-
-# Ejecutar personalizaciones individuales
+# Ejecutar personalizaciones individuales si están habilitadas y no aplicadas
 for script in custom/*.sh; do
-    sudo chmod +x $script
+    sudo chmod +x "$script"
+    
     if [[ -x "$script" ]]; then
-        echo "[SYS]: Running $script..."
-        "$script"
+        script_name=$(basename "$script" .sh)
+        
+        # Verificar si la configuración está habilitada y no aplicada
+        script_enabled=$(jq -r ".${script_name}.enabled" "$CONFIG_FILE")
+        script_applied=$(jq -r ".${script_name}.applied" "$CONFIG_FILE")
+        
+        if [[ "$script_enabled" == "true" && "$script_applied" == "false" ]]; then
+            echo "[SYS]: Running $script..."
+            "$script"
+            
+            # Marcar la configuración como aplicada en config.json
+            jq ".${script_name}.applied = true" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
+        else
+            echo "[SYS]: Skipping $script (disabled or already applied)"
+        fi
     else
         echo "[WARN]: Skipping $script (not executable)"
     fi
