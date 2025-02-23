@@ -41,6 +41,7 @@ for script in custom/*.sh; do
             
             # Marcar la configuración como aplicada en config.json
             jq ".${script_name}.applied = true" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
+            jq ".${script_name}.enabled = false" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
         else
             echo "[SYS]: Skipping $script (disabled or already applied)"
         fi
