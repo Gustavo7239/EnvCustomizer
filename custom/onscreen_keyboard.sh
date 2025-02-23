@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG_FILE="../config.json"
+CONFIG_FILE="config.json"
 script_name=$(basename "$0" .sh)  # Obtener el nombre del script sin la extensión .sh
 
 # Leer la configuración actual
