@@ -38,6 +38,7 @@ echo "[SYS]: Configuration base complete."
 for script in custom/*.sh; do
     if [[ -x "$script" ]]; then
         echo "[SYS]: Running $script..."
+        sudo chmod +x $script
         "$script"
     else
         echo "[WARN]: Skipping $script (not executable)"
