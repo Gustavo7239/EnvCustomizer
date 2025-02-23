@@ -3,7 +3,7 @@ CONFIG_FILE="config.json"
 script_name=$(basename "$0" .sh) 
 
 # Leer la lista de paquetes desde JSON
-packages=$(jq -r '.${script_name}[]' "$CONFIG_FILE")
+packages=$(jq -r '.${script_name}.value[]' "$CONFIG_FILE")
 
 if [[ -z "$packages" ]]; then
     echo "[SYS]: No packages to install."
