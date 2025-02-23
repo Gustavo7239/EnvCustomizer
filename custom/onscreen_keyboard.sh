@@ -3,7 +3,7 @@
 CONFIG_FILE="../config"
 
 # Leer la configuración actual
-onscreen_keyboard=$(grep "^onscreen_keyboard=" "$CONFIG_FILE" | cut -d '=' -f2)
+#onscreen_keyboard=$(grep "^onscreen_keyboard=" "$CONFIG_FILE" | cut -d '=' -f2)
 
 if [[ "$onscreen_keyboard" == "enabled" ]]; then
     echo "[SYS]: Enabling on-screen keyboard..."
