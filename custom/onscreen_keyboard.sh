@@ -14,4 +14,5 @@ else
     #sudo apt remove -y onboard  # Desinstala el teclado en pantalla
 fi
 
+echo $script_name
 echo $value
