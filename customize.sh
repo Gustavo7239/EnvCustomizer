@@ -36,9 +36,9 @@ echo "[SYS]: Configuration base complete."
 
 # Ejecutar personalizaciones individuales
 for script in custom/*.sh; do
+    sudo chmod +x $script
     if [[ -x "$script" ]]; then
         echo "[SYS]: Running $script..."
-        sudo chmod +x $script
         "$script"
     else
         echo "[WARN]: Skipping $script (not executable)"
