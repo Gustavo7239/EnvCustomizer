@@ -18,5 +18,10 @@
         "enabled": false,
         "applied": true,
         "value": "192.168.0.10"
+    },
+    "version": {
+        "enabled": false,
+        "applied": true,
+        "value": ""
     }
 }
