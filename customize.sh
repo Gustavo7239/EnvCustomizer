@@ -33,15 +33,18 @@ for script in custom/*.sh; do
         
         # Verificar si la configuración está habilitada y no aplicada
         script_enabled=$(jq -r ".${script_name}.enabled" "$CONFIG_FILE")
-        script_applied=$(jq -r ".${script_name}.applied" "$CONFIG_FILE")
         
-        if [[ "$script_enabled" == "true" && "$script_applied" == "false" ]]; then
-            echo "[SYS]: Running $script..."
-            "$script"
-            
-            # Marcar la configuración como aplicada en config.json
-            jq ".${script_name}.applied = true" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
-            jq ".${script_name}.enabled = false" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
+        if [[ "$script_enabled" == "true"]]; then
+            script_applied=$(jq -r ".${script_name}.applied" "$CONFIG_FILE")
+
+            if [["$script_applied" == "false"]]; then
+                echo "[SYS]: Running $script..."
+                "$script"
+
+                # Marcar la configuración como aplicada en config.json
+                jq ".${script_name}.applied = true" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
+                jq ".${script_name}.enabled = false" "$CONFIG_FILE" > temp.json && mv temp.json "$CONFIG_FILE"
+            fi
         else
             echo "[SYS]: Skipping $script (disabled or already applied)"
         fi

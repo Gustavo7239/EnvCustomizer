@@ -5,9 +5,9 @@
         "value": ""
     },
     "packages": {
-        "enabled": true,
-        "applied": false,
-        "value": ["vim", "git", "curl"]
+        "enabled": false,
+        "applied": true,
+        "value": ["vim", "curl"]
     },
     "hostname": {
         "enabled": false,
