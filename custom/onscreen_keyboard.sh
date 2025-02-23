@@ -16,3 +16,4 @@ fi
 
 echo $script_name
 echo $value
+echo "jq -r ".${script_name}.value" "$CONFIG_FILE""
