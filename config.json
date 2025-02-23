@@ -2,7 +2,7 @@
     "onscreen_keyboard": {
         "enabled": true,
         "applied": false,
-        "value": "disabled"
+        "value": "no value"
     },
     "customized_packages": {
         "enabled": false,
