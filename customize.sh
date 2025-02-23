@@ -21,8 +21,27 @@ update_config() {
     fi
 }
 
+read -p "Will this system be monted on touchscreen? (y/n): " touchscreen_bool
+if [[ "$touchscreen_bool" == "y" ]]; then
+    update_config "onscreen_keyboard" "enabled"
+else
+    update_config "onscreen_keyboard" "disable"
+fi
+
 # Verificar y agregar configuraciones faltantes
-update_config "onscreen_keyboard" "disabled"
 update_config "customized_packages" ""
 
-echo "[SYS]: Configuration complete."
+echo "[SYS]: Configuration base complete."
+
+
+# Ejecutar personalizaciones individuales
+for script in custom/*.sh; do
+    if [[ -x "$script" ]]; then
+        echo "[SYS]: Running $script..."
+        "$script"
+    else
+        echo "[WARN]: Skipping $script (not executable)"
+    fi
+done
+
+echo "[SYS]: Full customization complete."
