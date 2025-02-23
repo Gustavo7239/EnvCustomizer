@@ -2,11 +2,11 @@
     "onscreen_keyboard": {
         "enabled": true,
         "applied": false,
-        "value": "no value"
+        "value": ""
     },
-    "customized_packages": {
-        "enabled": false,
-        "applied": true,
+    "packages": {
+        "enabled": true,
+        "applied": false,
         "value": ["vim", "git", "curl"]
     },
     "hostname": {
@@ -18,10 +18,5 @@
         "enabled": false,
         "applied": true,
         "value": "192.168.0.10"
-    },
-    "version": {
-        "enabled": false,
-        "applied": true,
-        "value": ""
     }
 }
